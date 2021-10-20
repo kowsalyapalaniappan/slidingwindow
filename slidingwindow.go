@@ -1,6 +1,7 @@
 package slidingwindow
 
 import (
+	"log"
 	"sync"
 	"time"
 )
@@ -45,7 +46,6 @@ type Limiter struct {
 // the possible sync behaviour within the current window.
 func NewLimiter(size time.Duration, limit int64, newWindow NewWindow) (*Limiter, StopFunc) {
 	currWin, currStop := newWindow()
-
 	// The previous window is static (i.e. no add changes will happen within it),
 	// so we always create it as an instance of LocalWindow.
 	//
@@ -82,11 +82,14 @@ func (lim *Limiter) Limit() int64 {
 func (lim *Limiter) SetLimit(newLimit int64) {
 	lim.mu.Lock()
 	defer lim.mu.Unlock()
+	log.Printf("Setting newlimit: %s", newLimit)
 	lim.limit = newLimit
 }
 
 // Allow is shorthand for AllowN(time.Now(), 1).
 func (lim *Limiter) Allow() bool {
+	log.Printf("Allow : %s", lim.limit )
+
 	return lim.AllowN(time.Now(), 1)
 }
 

@@ -1,3 +1,3 @@
-module github.com/RussellLuo/slidingwindow
+module github.com/kowsalyapalaniappan/slidingwindow
 
 go 1.13
